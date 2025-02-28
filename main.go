@@ -1,7 +1,15 @@
 package main
 
-import "redjax/my-gh/cmd"
+import (
+	"fmt"
+	"log"
+
+	"redjax/my-gh/cmd"
+)
 
 func main() {
-	cmd.Execute()
+	if err := cmd.Execute(); err != nil {
+		fmt.Println("Error:", err)
+		log.Fatal(err)
+	}
 }
