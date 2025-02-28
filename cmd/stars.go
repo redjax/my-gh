@@ -9,13 +9,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var runCmd = &cobra.Command{
-	Use:   "run",
-	Short: "Fetch and save your starred repositories",
+var starsCmd = &cobra.Command{
+	Use:   "stars",
+	Short: "Fetch and save your starred repositories from GitHub",
 	Run: func(cmd *cobra.Command, args []string) {
+		// Load config
 		configFile, _ := cmd.Flags().GetString("config-file")
-
-		// Load Config
 		config, err := utils.LoadConfig(configFile)
 		if err != nil {
 			fmt.Println("Error loading config:", err)
@@ -37,4 +36,11 @@ var runCmd = &cobra.Command{
 
 		fmt.Println("Starred repositories saved to", config.OutputFile)
 	},
+}
+
+func init() {
+	// Define flags for "stars" command
+	starsCmd.Flags().String("config-file", "config.json", "Path to the config file")
+	starsCmd.Flags().String("gh-api-token", "", "GitHub API token (overrides config file and env)")
+	starsCmd.Flags().String("output-file", "starred_repositories.json", "Output file for starred repositories")
 }
